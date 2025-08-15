@@ -5,7 +5,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Progress } from './ui/progress';
-import { ChevronRight, ChevronLeft, Activity, Target, Home, Dumbbell } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Activity, Target, Home, Dumbbell, Scale } from 'lucide-react';
 
 const AssessmentForm = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -13,6 +13,7 @@ const AssessmentForm = ({ onComplete }) => {
     location: '',
     age: '',
     height: '',
+    weight: '',
     waistSize: '',
     neckSize: '',
     hipSize: '',
@@ -20,7 +21,7 @@ const AssessmentForm = ({ onComplete }) => {
     fitnessLevel: ''
   });
 
-  const totalSteps = 4;
+  const totalSteps = 5;
   const progress = (currentStep / totalSteps) * 100;
 
   const handleInputChange = (field, value) => {
@@ -46,11 +47,13 @@ const AssessmentForm = ({ onComplete }) => {
       case 1:
         return formData.location !== '';
       case 2:
-        return formData.age && formData.height && formData.gender;
+        return formData.age && formData.height && formData.weight && formData.gender;
       case 3:
         return formData.waistSize && formData.neckSize && (formData.gender === 'male' || formData.hipSize);
       case 4:
         return formData.fitnessLevel !== '';
+      case 5:
+        return true; // Summary step
       default:
         return false;
     }
@@ -120,7 +123,17 @@ const AssessmentForm = ({ onComplete }) => {
                   onChange={(e) => handleInputChange('height', e.target.value)}
                 />
               </div>
-              <div className="space-y-2 md:col-span-2">
+              <div className="space-y-2">
+                <Label htmlFor="weight">Weight (kg)</Label>
+                <Input
+                  id="weight"
+                  type="number"
+                  placeholder="Enter your weight"
+                  value={formData.weight}
+                  onChange={(e) => handleInputChange('weight', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="gender">Gender</Label>
                 <Select onValueChange={(value) => handleInputChange('gender', value)}>
                   <SelectTrigger>
@@ -140,7 +153,7 @@ const AssessmentForm = ({ onComplete }) => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
-              <Target className="mx-auto h-12 w-12 text-blue-600 mb-4" />
+              <Scale className="mx-auto h-12 w-12 text-blue-600 mb-4" />
               <h2 className="text-2xl font-bold text-gray-900">Body Measurements</h2>
               <p className="text-gray-600 mt-2">We need these to calculate your body fat percentage</p>
             </div>
@@ -178,6 +191,17 @@ const AssessmentForm = ({ onComplete }) => {
                 </div>
               )}
             </div>
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-800 mb-2">Measurement Tips:</h4>
+              <ul className="text-sm text-blue-700 space-y-1">
+                <li>• <strong>Waist:</strong> Measure at the narrowest point, usually just above the belly button</li>
+                <li>• <strong>Neck:</strong> Measure just below the Adam's apple (men) or at the narrowest point (women)</li>
+                {formData.gender === 'female' && (
+                  <li>• <strong>Hips:</strong> Measure at the widest point of your hips</li>
+                )}
+                <li>• Use a flexible measuring tape and don't pull too tight</li>
+              </ul>
+            </div>
           </div>
         );
 
@@ -191,9 +215,24 @@ const AssessmentForm = ({ onComplete }) => {
             </div>
             <div className="space-y-4">
               {[
-                { value: 'beginner', title: 'Beginner', desc: 'New to working out or less than 6 months experience' },
-                { value: 'intermediate', title: 'Intermediate', desc: '6 months to 2 years of regular exercise' },
-                { value: 'advanced', title: 'Advanced', desc: 'More than 2 years of consistent training' }
+                { 
+                  value: 'beginner', 
+                  title: 'Beginner', 
+                  desc: 'New to working out or less than 6 months experience',
+                  details: 'Focus on form, basic movements, and building consistency'
+                },
+                { 
+                  value: 'intermediate', 
+                  title: 'Intermediate', 
+                  desc: '6 months to 2 years of regular exercise',
+                  details: 'Ready for progressive overload and compound movements'
+                },
+                { 
+                  value: 'advanced', 
+                  title: 'Advanced', 
+                  desc: 'More than 2 years of consistent training',
+                  details: 'Can handle heavy weights and complex movement patterns'
+                }
               ].map((level) => (
                 <Card 
                   key={level.value}
@@ -201,16 +240,82 @@ const AssessmentForm = ({ onComplete }) => {
                   onClick={() => handleInputChange('fitnessLevel', level.value)}
                 >
                   <CardContent className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-4 h-4 rounded-full border-2 ${formData.fitnessLevel === level.value ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`} />
-                      <div>
+                    <div className="flex items-start space-x-3">
+                      <div className={`w-4 h-4 rounded-full border-2 mt-1 ${formData.fitnessLevel === level.value ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`} />
+                      <div className="flex-1">
                         <h3 className="font-semibold">{level.title}</h3>
                         <p className="text-sm text-gray-600">{level.desc}</p>
+                        <p className="text-xs text-blue-600 mt-1">{level.details}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <Target className="mx-auto h-12 w-12 text-green-600 mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900">Assessment Complete!</h2>
+              <p className="text-gray-600 mt-2">Review your information before generating your program</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Personal Info</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Age:</span>
+                    <span className="font-semibold">{formData.age} years</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Gender:</span>
+                    <span className="font-semibold capitalize">{formData.gender}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Height:</span>
+                    <span className="font-semibold">{formData.height} cm</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Weight:</span>
+                    <span className="font-semibold">{formData.weight} kg</span>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Program Details</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Location:</span>
+                    <span className="font-semibold capitalize">{formData.location}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Level:</span>
+                    <span className="font-semibold capitalize">{formData.fitnessLevel}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Waist:</span>
+                    <span className="font-semibold">{formData.waistSize} cm</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Neck:</span>
+                    <span className="font-semibold">{formData.neckSize} cm</span>
+                  </div>
+                  {formData.gender === 'female' && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Hips:</span>
+                      <span className="font-semibold">{formData.hipSize} cm</span>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </div>
           </div>
         );
