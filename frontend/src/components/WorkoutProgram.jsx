@@ -5,6 +5,8 @@ import { Button } from './ui/button';
 import { Progress } from './ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { ArrowLeft, Calendar, Clock, Target, TrendingUp, Plus, Minus, Utensils, Pill } from 'lucide-react';
+import CalorieTracker from './CalorieTracker';
+import ExerciseDemo from './ExerciseDemo';
 
 const WorkoutProgram = ({ userData, onBack }) => {
   const [selectedWeek, setSelectedWeek] = useState(1);
@@ -28,10 +30,10 @@ const WorkoutProgram = ({ userData, onBack }) => {
 
   const bodyFatPercentage = calculateBodyFat().toFixed(1);
 
-  // Calculate nutrition based on body weight (assuming 70kg for demo)
-  const estimatedWeight = 70; // This would come from user input in real app
-  const proteinGrams = estimatedWeight * 2;
-  const fatGrams = estimatedWeight * 1;
+  // Use actual weight from user data
+  const userWeight = userData?.weight ? parseFloat(userData.weight) : 70;
+  const proteinGrams = userWeight * 2;
+  const fatGrams = userWeight * 1;
   const proteinCalories = proteinGrams * 4;
   const fatCalories = fatGrams * 9;
   const totalCalories = userData.fitnessLevel === 'beginner' ? 2200 : userData.fitnessLevel === 'intermediate' ? 2400 : 2600;
@@ -396,33 +398,34 @@ const WorkoutProgram = ({ userData, onBack }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-brand-gradient py-12 px-4">
+      <div className="max-w-7xl mx-auto">
         <div className="flex items-center mb-8">
           <Button 
             variant="outline" 
             onClick={onBack}
-            className="flex items-center space-x-2 mr-4"
+            className="flex items-center space-x-2 mr-4 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Assessment</span>
           </Button>
-          <h1 className="text-3xl font-bold text-gray-900">Your Complete Fitness Program</h1>
+          <h1 className="text-3xl font-bold neon-orange">Your Complete Fitness Program</h1>
         </div>
 
         <Tabs defaultValue="overview" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="workouts">Workouts</TabsTrigger>
-            <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
-            <TabsTrigger value="supplements">Supplements</TabsTrigger>
-            <TabsTrigger value="progress">Progress</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-6 bg-gray-800/50 border border-orange-500/30">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">Overview</TabsTrigger>
+            <TabsTrigger value="workouts" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">Workouts</TabsTrigger>
+            <TabsTrigger value="nutrition" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">Nutrition</TabsTrigger>
+            <TabsTrigger value="supplements" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">Supplements</TabsTrigger>
+            <TabsTrigger value="calories" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">Calorie Tracker</TabsTrigger>
+            <TabsTrigger value="progress" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">Progress</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-8">
             {/* Body Fat Analysis */}
-            <Card className="shadow-xl">
-              <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
+              <CardHeader className="bg-gradient-to-r from-orange-600 to-red-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <Target className="h-6 w-6" />
                   <span>Body Composition Analysis</span>
@@ -431,28 +434,28 @@ const WorkoutProgram = ({ userData, onBack }) => {
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-2">{bodyFatPercentage}%</div>
-                    <p className="text-gray-600">Body Fat Percentage</p>
+                    <div className="text-4xl font-bold neon-orange mb-2">{bodyFatPercentage}%</div>
+                    <p className="text-gray-400">Body Fat Percentage</p>
                   </div>
                   <div className="text-center">
                     <Badge className={`${bodyFatInfo.color} text-white px-4 py-2 text-lg`}>
                       {bodyFatInfo.category}
                     </Badge>
-                    <p className="text-gray-600 mt-2">Category</p>
+                    <p className="text-gray-400 mt-2">Category</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600 mb-2">
+                    <div className="text-2xl font-bold neon-green mb-2">
                       {userData.location === 'gym' ? 'Gym' : 'Home'} Ready
                     </div>
-                    <p className="text-gray-600">Workout Location</p>
+                    <p className="text-gray-400">Workout Location</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Program Overview */}
-            <Card className="shadow-xl">
-              <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
+              <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <Calendar className="h-6 w-6" />
                   <span>Monthly Program Overview</span>
@@ -460,21 +463,21 @@ const WorkoutProgram = ({ userData, onBack }) => {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <div className="font-bold text-green-700">3 Days/Week</div>
-                    <p className="text-sm text-gray-600">Full Body Workouts</p>
+                  <div className="text-center p-4 bg-green-500/10 rounded-lg border border-green-500/30">
+                    <div className="font-bold neon-green">3 Days/Week</div>
+                    <p className="text-sm text-gray-400">Full Body Workouts</p>
                   </div>
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <div className="font-bold text-blue-700">{exercises.length} Exercises</div>
-                    <p className="text-sm text-gray-600">Per workout session</p>
+                  <div className="text-center p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                    <div className="font-bold neon-blue">{exercises.length} Exercises</div>
+                    <p className="text-sm text-gray-400">Per workout session</p>
                   </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <div className="font-bold text-purple-700">Progressive</div>
-                    <p className="text-sm text-gray-600">Weekly increases</p>
+                  <div className="text-center p-4 bg-purple-500/10 rounded-lg border border-purple-500/30">
+                    <div className="font-bold text-purple-400">Progressive</div>
+                    <p className="text-sm text-gray-400">Weekly increases</p>
                   </div>
-                  <div className="text-center p-4 bg-orange-50 rounded-lg">
-                    <div className="font-bold text-orange-700">45-60min</div>
-                    <p className="text-sm text-gray-600">Per session</p>
+                  <div className="text-center p-4 bg-orange-500/10 rounded-lg border border-orange-500/30">
+                    <div className="font-bold neon-orange">45-60min</div>
+                    <p className="text-sm text-gray-400">Per session</p>
                   </div>
                 </div>
               </CardContent>
@@ -483,8 +486,8 @@ const WorkoutProgram = ({ userData, onBack }) => {
 
           <TabsContent value="workouts" className="space-y-8">
             {/* Progressive Overload Schedule */}
-            <Card className="shadow-xl">
-              <CardHeader className="bg-gradient-to-r from-purple-600 to-purple-700 text-white">
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
+              <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <TrendingUp className="h-6 w-6" />
                   <span>4-Week Progressive Overload Plan</span>
@@ -497,25 +500,25 @@ const WorkoutProgram = ({ userData, onBack }) => {
                       key={week.week}
                       className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                         selectedWeek === week.week 
-                          ? 'border-purple-500 bg-purple-50' 
-                          : 'border-gray-200 hover:border-purple-300'
+                          ? 'border-orange-500 bg-orange-500/20' 
+                          : 'border-gray-600 hover:border-orange-400 bg-gray-800/30'
                       }`}
                       onClick={() => setSelectedWeek(week.week)}
                     >
-                      <div className="font-bold text-gray-900">Week {week.week}</div>
-                      <div className="text-sm text-purple-600">
+                      <div className="font-bold text-white">Week {week.week}</div>
+                      <div className="text-sm neon-orange">
                         {week.modifier === 1.0 ? 'Base' : week.modifier < 1.0 ? 'Deload' : `+${Math.round((week.modifier - 1) * 100)}%`}
                       </div>
-                      <p className="text-xs text-gray-600 mt-1">{week.note}</p>
+                      <p className="text-xs text-gray-400 mt-1">{week.note}</p>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            {/* Workout Exercises */}
-            <Card className="shadow-xl">
-              <CardHeader className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white">
+            {/* Workout Exercises with 3D Demos */}
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
+              <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <TrendingUp className="h-6 w-6" />
                   <span>Your {userData.fitnessLevel.charAt(0).toUpperCase() + userData.fitnessLevel.slice(1)} Workout Plan - Week {selectedWeek}</span>
@@ -530,32 +533,41 @@ const WorkoutProgram = ({ userData, onBack }) => {
                       : exercise.reps;
                     
                     return (
-                      <Card key={index} className="border-l-4 border-l-blue-500">
+                      <Card key={index} className="border-l-4 border-l-orange-500 bg-gray-800/30">
                         <CardContent className="p-4">
-                          <div className="flex justify-between items-start mb-4">
-                            <div className="flex-1">
-                              <h4 className="font-semibold text-lg text-gray-900 mb-2">
+                          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                            {/* Exercise Demo */}
+                            <div className="lg:col-span-1">
+                              <ExerciseDemo 
+                                exerciseName={exercise.name} 
+                                exerciseIndex={index}
+                              />
+                            </div>
+                            
+                            {/* Exercise Details */}
+                            <div className="lg:col-span-3">
+                              <h4 className="font-semibold text-xl text-white mb-4">
                                 {index + 1}. {exercise.name}
                               </h4>
                               <div className="grid grid-cols-3 gap-4 text-sm mb-4">
                                 <div>
-                                  <span className="text-gray-600">Sets:</span>
-                                  <div className="font-semibold text-blue-600">{exercise.sets}</div>
+                                  <span className="text-gray-400">Sets:</span>
+                                  <div className="font-semibold neon-blue text-lg">{exercise.sets}</div>
                                 </div>
                                 <div>
-                                  <span className="text-gray-600">Reps:</span>
-                                  <div className="font-semibold text-green-600">{adjustedReps}</div>
+                                  <span className="text-gray-400">Reps:</span>
+                                  <div className="font-semibold neon-green text-lg">{adjustedReps}</div>
                                 </div>
                                 <div>
-                                  <span className="text-gray-600">Rest:</span>
-                                  <div className="font-semibold text-purple-600">{exercise.rest}</div>
+                                  <span className="text-gray-400">Rest:</span>
+                                  <div className="font-semibold text-purple-400 text-lg">{exercise.rest}</div>
                                 </div>
                               </div>
-                              <div className="bg-gray-50 p-3 rounded-lg">
-                                <p className="text-sm text-gray-700 font-medium mb-2">Alternative Exercises:</p>
+                              <div className="bg-gray-700/50 p-4 rounded-lg border border-orange-500/20">
+                                <p className="text-sm text-orange-400 font-medium mb-2">Alternative Exercises:</p>
                                 <div className="flex flex-wrap gap-2">
                                   {exercise.alternatives.map((alt, altIndex) => (
-                                    <Badge key={altIndex} variant="outline" className="text-xs">
+                                    <Badge key={altIndex} variant="outline" className="text-xs border-green-500/50 text-green-400">
                                       {alt}
                                     </Badge>
                                   ))}
@@ -569,10 +581,10 @@ const WorkoutProgram = ({ userData, onBack }) => {
                   })}
                 </div>
 
-                <div className="mt-8 p-6 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border-l-4 border-l-orange-500">
-                  <h4 className="font-semibold text-orange-800 mb-2">Week {selectedWeek} Focus:</h4>
-                  <p className="text-orange-700 mb-4">{progressiveWeeks[selectedWeek - 1].note}</p>
-                  <ul className="text-sm text-orange-700 space-y-1">
+                <div className="mt-8 p-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-lg border-l-4 border-l-orange-500">
+                  <h4 className="font-semibold neon-orange mb-2">Week {selectedWeek} Focus:</h4>
+                  <p className="text-orange-300 mb-4">{progressiveWeeks[selectedWeek - 1].note}</p>
+                  <ul className="text-sm text-orange-200 space-y-1">
                     <li>• Warm up for 5-10 minutes before starting</li>
                     <li>• Focus on proper form over heavy weights</li>
                     <li>• Cool down with 5-10 minutes of stretching</li>
@@ -584,7 +596,7 @@ const WorkoutProgram = ({ userData, onBack }) => {
           </TabsContent>
 
           <TabsContent value="nutrition" className="space-y-8">
-            <Card className="shadow-xl">
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
               <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <Utensils className="h-6 w-6" />
@@ -593,32 +605,32 @@ const WorkoutProgram = ({ userData, onBack }) => {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <div className="text-3xl font-bold text-blue-600">{proteinGrams}g</div>
-                    <p className="text-gray-600">Protein Daily</p>
+                  <div className="text-center p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                    <div className="text-3xl font-bold neon-blue">{proteinGrams}g</div>
+                    <p className="text-gray-400">Protein Daily</p>
                     <p className="text-xs text-gray-500">2x body weight</p>
                   </div>
-                  <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                    <div className="text-3xl font-bold text-yellow-600">{fatGrams}g</div>
-                    <p className="text-gray-600">Fats Daily</p>
+                  <div className="text-center p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
+                    <div className="text-3xl font-bold text-yellow-400">{fatGrams}g</div>
+                    <p className="text-gray-400">Fats Daily</p>
                     <p className="text-xs text-gray-500">1x body weight</p>
                   </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <div className="text-3xl font-bold text-green-600">{carbGrams}g</div>
-                    <p className="text-gray-600">Carbs Daily</p>
+                  <div className="text-center p-4 bg-green-500/10 rounded-lg border border-green-500/30">
+                    <div className="text-3xl font-bold neon-green">{carbGrams}g</div>
+                    <p className="text-gray-400">Carbs Daily</p>
                     <p className="text-xs text-gray-500">Remaining calories</p>
                   </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <div className="text-3xl font-bold text-purple-600">{totalCalories}</div>
-                    <p className="text-gray-600">Total Calories</p>
+                  <div className="text-center p-4 bg-purple-500/10 rounded-lg border border-purple-500/30">
+                    <div className="text-3xl font-bold text-purple-400">{totalCalories}</div>
+                    <p className="text-gray-400">Total Calories</p>
                     <p className="text-xs text-gray-500">Daily target</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-800 mb-3">Protein Sources</h4>
-                    <ul className="text-sm text-blue-700 space-y-1">
+                  <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30">
+                    <h4 className="font-semibold neon-blue mb-3">Protein Sources</h4>
+                    <ul className="text-sm text-blue-300 space-y-1">
                       <li>• Chicken breast (25g per 100g)</li>
                       <li>• Lean beef (26g per 100g)</li>
                       <li>• Fish/Salmon (25g per 100g)</li>
@@ -627,9 +639,9 @@ const WorkoutProgram = ({ userData, onBack }) => {
                       <li>• Protein powder (25g per scoop)</li>
                     </ul>
                   </div>
-                  <div className="bg-yellow-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-yellow-800 mb-3">Healthy Fats</h4>
-                    <ul className="text-sm text-yellow-700 space-y-1">
+                  <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/30">
+                    <h4 className="font-semibold text-yellow-400 mb-3">Healthy Fats</h4>
+                    <ul className="text-sm text-yellow-300 space-y-1">
                       <li>• Avocado (15g per half)</li>
                       <li>• Nuts/Almonds (14g per 30g)</li>
                       <li>• Olive oil (14g per tbsp)</li>
@@ -638,9 +650,9 @@ const WorkoutProgram = ({ userData, onBack }) => {
                       <li>• Nut butters (16g per 2 tbsp)</li>
                     </ul>
                   </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-green-800 mb-3">Complex Carbs</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
+                  <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/30">
+                    <h4 className="font-semibold neon-green mb-3">Complex Carbs</h4>
+                    <ul className="text-sm text-green-300 space-y-1">
                       <li>• Brown rice (23g per 100g cooked)</li>
                       <li>• Oats (12g per 100g cooked)</li>
                       <li>• Sweet potato (20g per 100g)</li>
@@ -651,11 +663,11 @@ const WorkoutProgram = ({ userData, onBack }) => {
                   </div>
                 </div>
 
-                <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-                  <h4 className="font-semibold text-gray-800 mb-4">Food Tracking Tips</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <div className="mt-8 p-6 bg-gray-700/50 rounded-lg border border-orange-500/20">
+                  <h4 className="font-semibold neon-orange mb-4">Food Tracking Tips</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
                     <div>
-                      <p className="font-medium mb-2">Meal Timing:</p>
+                      <p className="font-medium mb-2 text-orange-400">Meal Timing:</p>
                       <ul className="space-y-1">
                         <li>• Pre-workout: Carbs + small protein (1-2h before)</li>
                         <li>• Post-workout: Protein + carbs (within 30 min)</li>
@@ -663,7 +675,7 @@ const WorkoutProgram = ({ userData, onBack }) => {
                       </ul>
                     </div>
                     <div>
-                      <p className="font-medium mb-2">Tracking Methods:</p>
+                      <p className="font-medium mb-2 text-orange-400">Tracking Methods:</p>
                       <ul className="space-y-1">
                         <li>• Use apps like MyFitnessPal or Cronometer</li>
                         <li>• Weigh foods for accuracy</li>
@@ -677,7 +689,7 @@ const WorkoutProgram = ({ userData, onBack }) => {
           </TabsContent>
 
           <TabsContent value="supplements" className="space-y-8">
-            <Card className="shadow-xl">
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
               <CardHeader className="bg-gradient-to-r from-orange-600 to-red-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <Pill className="h-6 w-6" />
@@ -687,40 +699,40 @@ const WorkoutProgram = ({ userData, onBack }) => {
               <CardContent className="p-6">
                 <div className="space-y-8">
                   {supplements.map((supplement, index) => (
-                    <Card key={index} className="border-l-4 border-l-orange-500">
+                    <Card key={index} className="border-l-4 border-l-orange-500 bg-gray-700/30">
                       <CardContent className="p-6">
                         <div className="flex justify-between items-start mb-4">
                           <div>
-                            <h3 className="text-xl font-bold text-gray-900">{supplement.name}</h3>
-                            <p className="text-lg text-orange-600 font-semibold">{supplement.dosage}</p>
+                            <h3 className="text-xl font-bold text-white">{supplement.name}</h3>
+                            <p className="text-lg neon-orange font-semibold">{supplement.dosage}</p>
                           </div>
-                          <Badge className="bg-orange-100 text-orange-800">Essential</Badge>
+                          <Badge className="bg-orange-500/20 text-orange-400 border border-orange-500/50">Essential</Badge>
                         </div>
                         
                         <div className="mb-4">
-                          <h4 className="font-semibold text-gray-800 mb-2">Benefits:</h4>
+                          <h4 className="font-semibold text-orange-400 mb-2">Benefits:</h4>
                           <ul className="space-y-2">
                             {supplement.benefits.map((benefit, benefitIndex) => (
                               <li key={benefitIndex} className="flex items-start space-x-2">
                                 <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                                <span className="text-gray-700">{benefit}</span>
+                                <span className="text-gray-300">{benefit}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
                         
-                        <div className="bg-orange-50 p-4 rounded-lg">
-                          <h4 className="font-semibold text-orange-800 mb-1">When to Take:</h4>
-                          <p className="text-orange-700">{supplement.timing}</p>
+                        <div className="bg-orange-500/10 p-4 rounded-lg border border-orange-500/20">
+                          <h4 className="font-semibold neon-orange mb-1">When to Take:</h4>
+                          <p className="text-orange-300">{supplement.timing}</p>
                         </div>
                       </CardContent>
                     </Card>
                   ))}
                 </div>
 
-                <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border-l-4 border-l-blue-500">
-                  <h4 className="font-semibold text-blue-800 mb-2">Important Notes:</h4>
-                  <ul className="text-sm text-blue-700 space-y-1">
+                <div className="mt-8 p-6 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-lg border-l-4 border-l-blue-500">
+                  <h4 className="font-semibold neon-blue mb-2">Important Notes:</h4>
+                  <ul className="text-sm text-blue-300 space-y-1">
                     <li>• Supplements are additions to, not replacements for, a balanced diet</li>
                     <li>• Consult with a healthcare provider before starting any new supplements</li>
                     <li>• Quality matters - choose reputable brands with third-party testing</li>
@@ -732,8 +744,12 @@ const WorkoutProgram = ({ userData, onBack }) => {
             </Card>
           </TabsContent>
 
+          <TabsContent value="calories" className="space-y-8">
+            <CalorieTracker userData={userData} />
+          </TabsContent>
+
           <TabsContent value="progress" className="space-y-8">
-            <Card className="shadow-xl">
+            <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
               <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-700 text-white">
                 <CardTitle className="flex items-center space-x-2">
                   <TrendingUp className="h-6 w-6" />
@@ -743,10 +759,10 @@ const WorkoutProgram = ({ userData, onBack }) => {
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Workout Progress</h3>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-600 mb-2">Track these metrics weekly:</p>
-                      <ul className="text-sm text-gray-700 space-y-1">
+                    <h3 className="text-lg font-semibold text-white">Workout Progress</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg border border-orange-500/20">
+                      <p className="text-sm text-gray-400 mb-2">Track these metrics weekly:</p>
+                      <ul className="text-sm text-gray-300 space-y-1">
                         <li>• Reps completed for each exercise</li>
                         <li>• Weight used (if applicable)</li>
                         <li>• Rest time between sets</li>
@@ -756,10 +772,10 @@ const WorkoutProgram = ({ userData, onBack }) => {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Body Progress</h3>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-600 mb-2">Measure monthly:</p>
-                      <ul className="text-sm text-gray-700 space-y-1">
+                    <h3 className="text-lg font-semibold text-white">Body Progress</h3>
+                    <div className="bg-gray-700/50 p-4 rounded-lg border border-orange-500/20">
+                      <p className="text-sm text-gray-400 mb-2">Measure monthly:</p>
+                      <ul className="text-sm text-gray-300 space-y-1">
                         <li>• Body weight</li>
                         <li>• Body measurements (waist, chest, arms)</li>
                         <li>• Progress photos</li>

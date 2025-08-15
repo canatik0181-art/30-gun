@@ -65,29 +65,29 @@ const AssessmentForm = ({ onComplete }) => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
-              <Activity className="mx-auto h-12 w-12 text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Where will you work out?</h2>
-              <p className="text-gray-600 mt-2">Choose your preferred workout location</p>
+              <Activity className="mx-auto h-12 w-12 neon-orange mb-4" />
+              <h2 className="text-2xl font-bold text-white">Where will you work out?</h2>
+              <p className="text-gray-400 mt-2">Choose your preferred workout location</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card 
-                className={`cursor-pointer transition-all ${formData.location === 'home' ? 'ring-2 ring-blue-600 bg-blue-50' : 'hover:shadow-md'}`}
+                className={`cursor-pointer transition-all bg-gray-800/50 border-orange-500/30 ${formData.location === 'home' ? 'ring-2 ring-orange-500 bg-orange-500/20' : 'hover:shadow-md hover:border-orange-500/50'}`}
                 onClick={() => handleInputChange('location', 'home')}
               >
                 <CardContent className="p-6 text-center">
-                  <Home className="mx-auto h-8 w-8 text-blue-600 mb-3" />
-                  <h3 className="font-semibold">Home Workout</h3>
-                  <p className="text-sm text-gray-600 mt-1">Bodyweight and minimal equipment</p>
+                  <Home className="mx-auto h-8 w-8 neon-blue mb-3" />
+                  <h3 className="font-semibold text-white">Home Workout</h3>
+                  <p className="text-sm text-gray-400 mt-1">Bodyweight and minimal equipment</p>
                 </CardContent>
               </Card>
               <Card 
-                className={`cursor-pointer transition-all ${formData.location === 'gym' ? 'ring-2 ring-blue-600 bg-blue-50' : 'hover:shadow-md'}`}
+                className={`cursor-pointer transition-all bg-gray-800/50 border-orange-500/30 ${formData.location === 'gym' ? 'ring-2 ring-orange-500 bg-orange-500/20' : 'hover:shadow-md hover:border-orange-500/50'}`}
                 onClick={() => handleInputChange('location', 'gym')}
               >
                 <CardContent className="p-6 text-center">
-                  <Dumbbell className="mx-auto h-8 w-8 text-blue-600 mb-3" />
-                  <h3 className="font-semibold">Gym Workout</h3>
-                  <p className="text-sm text-gray-600 mt-1">Full equipment and machines</p>
+                  <Dumbbell className="mx-auto h-8 w-8 neon-blue mb-3" />
+                  <h3 className="font-semibold text-white">Gym Workout</h3>
+                  <p className="text-sm text-gray-400 mt-1">Full equipment and machines</p>
                 </CardContent>
               </Card>
             </div>
@@ -98,50 +98,53 @@ const AssessmentForm = ({ onComplete }) => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
-              <Target className="mx-auto h-12 w-12 text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Basic Information</h2>
-              <p className="text-gray-600 mt-2">Tell us about yourself</p>
+              <Target className="mx-auto h-12 w-12 neon-blue mb-4" />
+              <h2 className="text-2xl font-bold text-white">Basic Information</h2>
+              <p className="text-gray-400 mt-2">Tell us about yourself</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="age">Age</Label>
+                <Label htmlFor="age" className="text-gray-300">Age</Label>
                 <Input
                   id="age"
                   type="number"
                   placeholder="Enter your age"
                   value={formData.age}
                   onChange={(e) => handleInputChange('age', e.target.value)}
+                  className="bg-gray-800/50 border-orange-500/30 text-white placeholder:text-gray-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="height">Height (cm)</Label>
+                <Label htmlFor="height" className="text-gray-300">Height (cm)</Label>
                 <Input
                   id="height"
                   type="number"
                   placeholder="Enter your height"
                   value={formData.height}
                   onChange={(e) => handleInputChange('height', e.target.value)}
+                  className="bg-gray-800/50 border-orange-500/30 text-white placeholder:text-gray-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="weight">Weight (kg)</Label>
+                <Label htmlFor="weight" className="text-gray-300">Weight (kg)</Label>
                 <Input
                   id="weight"
                   type="number"
                   placeholder="Enter your weight"
                   value={formData.weight}
                   onChange={(e) => handleInputChange('weight', e.target.value)}
+                  className="bg-gray-800/50 border-orange-500/30 text-white placeholder:text-gray-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="gender">Gender</Label>
+                <Label htmlFor="gender" className="text-gray-300">Gender</Label>
                 <Select onValueChange={(value) => handleInputChange('gender', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-800/50 border-orange-500/30 text-white">
                     <SelectValue placeholder="Select your gender" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
+                  <SelectContent className="bg-gray-800 border-orange-500/30">
+                    <SelectItem value="male" className="text-white hover:bg-orange-500/20">Male</SelectItem>
+                    <SelectItem value="female" className="text-white hover:bg-orange-500/20">Female</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -153,47 +156,50 @@ const AssessmentForm = ({ onComplete }) => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
-              <Scale className="mx-auto h-12 w-12 text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Body Measurements</h2>
-              <p className="text-gray-600 mt-2">We need these to calculate your body fat percentage</p>
+              <Scale className="mx-auto h-12 w-12 neon-green mb-4" />
+              <h2 className="text-2xl font-bold text-white">Body Measurements</h2>
+              <p className="text-gray-400 mt-2">We need these to calculate your body fat percentage</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="waist">Waist Size (cm)</Label>
+                <Label htmlFor="waist" className="text-gray-300">Waist Size (cm)</Label>
                 <Input
                   id="waist"
                   type="number"
                   placeholder="Measure at naval level"
                   value={formData.waistSize}
                   onChange={(e) => handleInputChange('waistSize', e.target.value)}
+                  className="bg-gray-800/50 border-orange-500/30 text-white placeholder:text-gray-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="neck">Neck Size (cm)</Label>
+                <Label htmlFor="neck" className="text-gray-300">Neck Size (cm)</Label>
                 <Input
                   id="neck"
                   type="number"
                   placeholder="Measure around your neck"
                   value={formData.neckSize}
                   onChange={(e) => handleInputChange('neckSize', e.target.value)}
+                  className="bg-gray-800/50 border-orange-500/30 text-white placeholder:text-gray-500"
                 />
               </div>
               {formData.gender === 'female' && (
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="hip">Hip Size (cm)</Label>
+                  <Label htmlFor="hip" className="text-gray-300">Hip Size (cm)</Label>
                   <Input
                     id="hip"
                     type="number"
                     placeholder="Measure at widest point"
                     value={formData.hipSize}
                     onChange={(e) => handleInputChange('hipSize', e.target.value)}
+                    className="bg-gray-800/50 border-orange-500/30 text-white placeholder:text-gray-500"
                   />
                 </div>
               )}
             </div>
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-blue-800 mb-2">Measurement Tips:</h4>
-              <ul className="text-sm text-blue-700 space-y-1">
+            <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30">
+              <h4 className="font-semibold neon-blue mb-2">Measurement Tips:</h4>
+              <ul className="text-sm text-blue-300 space-y-1">
                 <li>• <strong>Waist:</strong> Measure at the narrowest point, usually just above the belly button</li>
                 <li>• <strong>Neck:</strong> Measure just below the Adam's apple (men) or at the narrowest point (women)</li>
                 {formData.gender === 'female' && (
@@ -209,9 +215,9 @@ const AssessmentForm = ({ onComplete }) => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
-              <Activity className="mx-auto h-12 w-12 text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Fitness Level</h2>
-              <p className="text-gray-600 mt-2">What's your current fitness experience?</p>
+              <Activity className="mx-auto h-12 w-12 neon-orange mb-4" />
+              <h2 className="text-2xl font-bold text-white">Fitness Level</h2>
+              <p className="text-gray-400 mt-2">What's your current fitness experience?</p>
             </div>
             <div className="space-y-4">
               {[
@@ -236,16 +242,16 @@ const AssessmentForm = ({ onComplete }) => {
               ].map((level) => (
                 <Card 
                   key={level.value}
-                  className={`cursor-pointer transition-all ${formData.fitnessLevel === level.value ? 'ring-2 ring-blue-600 bg-blue-50' : 'hover:shadow-md'}`}
+                  className={`cursor-pointer transition-all bg-gray-800/50 border-orange-500/30 ${formData.fitnessLevel === level.value ? 'ring-2 ring-orange-500 bg-orange-500/20' : 'hover:shadow-md hover:border-orange-500/50'}`}
                   onClick={() => handleInputChange('fitnessLevel', level.value)}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start space-x-3">
-                      <div className={`w-4 h-4 rounded-full border-2 mt-1 ${formData.fitnessLevel === level.value ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`} />
+                      <div className={`w-4 h-4 rounded-full border-2 mt-1 ${formData.fitnessLevel === level.value ? 'bg-orange-500 border-orange-500' : 'border-gray-500'}`} />
                       <div className="flex-1">
-                        <h3 className="font-semibold">{level.title}</h3>
-                        <p className="text-sm text-gray-600">{level.desc}</p>
-                        <p className="text-xs text-blue-600 mt-1">{level.details}</p>
+                        <h3 className="font-semibold text-white">{level.title}</h3>
+                        <p className="text-sm text-gray-400">{level.desc}</p>
+                        <p className="text-xs neon-blue mt-1">{level.details}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -259,59 +265,59 @@ const AssessmentForm = ({ onComplete }) => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
-              <Target className="mx-auto h-12 w-12 text-green-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Assessment Complete!</h2>
-              <p className="text-gray-600 mt-2">Review your information before generating your program</p>
+              <Target className="mx-auto h-12 w-12 neon-green mb-4" />
+              <h2 className="text-2xl font-bold text-white">Assessment Complete!</h2>
+              <p className="text-gray-400 mt-2">Review your information before generating your program</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
+              <Card className="bg-gray-800/50 border-orange-500/30">
                 <CardHeader>
-                  <CardTitle className="text-lg">Personal Info</CardTitle>
+                  <CardTitle className="text-lg text-white">Personal Info</CardTitle>
                 </CardHeader>
                 <CardContent className="text-sm space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Age:</span>
-                    <span className="font-semibold">{formData.age} years</span>
+                    <span className="text-gray-400">Age:</span>
+                    <span className="font-semibold text-white">{formData.age} years</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Gender:</span>
-                    <span className="font-semibold capitalize">{formData.gender}</span>
+                    <span className="text-gray-400">Gender:</span>
+                    <span className="font-semibold text-white capitalize">{formData.gender}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Height:</span>
-                    <span className="font-semibold">{formData.height} cm</span>
+                    <span className="text-gray-400">Height:</span>
+                    <span className="font-semibold text-white">{formData.height} cm</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Weight:</span>
-                    <span className="font-semibold">{formData.weight} kg</span>
+                    <span className="text-gray-400">Weight:</span>
+                    <span className="font-semibold text-white">{formData.weight} kg</span>
                   </div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="bg-gray-800/50 border-orange-500/30">
                 <CardHeader>
-                  <CardTitle className="text-lg">Program Details</CardTitle>
+                  <CardTitle className="text-lg text-white">Program Details</CardTitle>
                 </CardHeader>
                 <CardContent className="text-sm space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Location:</span>
-                    <span className="font-semibold capitalize">{formData.location}</span>
+                    <span className="text-gray-400">Location:</span>
+                    <span className="font-semibold text-white capitalize">{formData.location}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Level:</span>
-                    <span className="font-semibold capitalize">{formData.fitnessLevel}</span>
+                    <span className="text-gray-400">Level:</span>
+                    <span className="font-semibold text-white capitalize">{formData.fitnessLevel}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Waist:</span>
-                    <span className="font-semibold">{formData.waistSize} cm</span>
+                    <span className="text-gray-400">Waist:</span>
+                    <span className="font-semibold text-white">{formData.waistSize} cm</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Neck:</span>
-                    <span className="font-semibold">{formData.neckSize} cm</span>
+                    <span className="text-gray-400">Neck:</span>
+                    <span className="font-semibold text-white">{formData.neckSize} cm</span>
                   </div>
                   {formData.gender === 'female' && (
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Hips:</span>
-                      <span className="font-semibold">{formData.hipSize} cm</span>
+                      <span className="text-gray-400">Hips:</span>
+                      <span className="font-semibold text-white">{formData.hipSize} cm</span>
                     </div>
                   )}
                 </CardContent>
@@ -326,17 +332,17 @@ const AssessmentForm = ({ onComplete }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+    <div className="min-h-screen bg-brand-gradient py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl font-bold text-gray-900">Fitness Assessment</h1>
-            <span className="text-sm text-gray-600">Step {currentStep} of {totalSteps}</span>
+            <h1 className="text-3xl font-bold text-white">Fitness Assessment</h1>
+            <span className="text-sm text-gray-400">Step {currentStep} of {totalSteps}</span>
           </div>
-          <Progress value={progress} className="h-2" />
+          <Progress value={progress} className="h-2 bg-gray-700" />
         </div>
 
-        <Card className="shadow-xl">
+        <Card className="shadow-xl bg-gray-800/50 border-orange-500/30">
           <CardContent className="p-8">
             {renderStep()}
           </CardContent>
@@ -347,7 +353,7 @@ const AssessmentForm = ({ onComplete }) => {
             variant="outline"
             onClick={handlePrevious}
             disabled={currentStep === 1}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
           >
             <ChevronLeft className="h-4 w-4" />
             <span>Previous</span>
@@ -355,7 +361,7 @@ const AssessmentForm = ({ onComplete }) => {
           <Button
             onClick={handleNext}
             disabled={!isStepValid()}
-            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700"
+            className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white"
           >
             <span>{currentStep === totalSteps ? 'Generate Program' : 'Next'}</span>
             <ChevronRight className="h-4 w-4" />
